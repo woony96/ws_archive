@@ -2,7 +2,7 @@
 """자소설닷컴 신입채용 일일 보고서 생성기.
 
 자소설닷컴 공개 API에서 공고를 받아
-  1) 직전 보고 이후(전날 18:00 ~ 기준 시각) 자소설닷컴에 새로 올라온 공고
+  1) 최근 24시간 동안 자소설닷컴에 새로 올라온 공고
   2) 오늘~모레 마감되는 공고
 를 골라 마크다운 보고서(jobs/reports/YYYY-MM-DD.md)와 요약(jobs/reports/latest.json)을 만든다.
 
@@ -166,7 +166,7 @@ def table(posts, today, with_fields=False):
 
 def build(now):
     today = now.date()
-    since = datetime.combine(today - timedelta(days=1), time(18), KST)
+    since = now - timedelta(days=1)
     until = datetime.combine(today + timedelta(days=2), time.max, KST)
 
     new = merge(recently_opened(since))
